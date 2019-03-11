@@ -14,6 +14,7 @@ import java.io.FileOutputStream
 import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.os.Build
+import android.support.v4.content.FileProvider
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     private fun grantExternalStoragePermission(): Boolean {
 
         // 마시멜로우 버전 이상...
-        return if (Build.VERSION.SDK_INT >= 23) {
+        return if (Build.VERSION.SDK_INT >= 24) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 true
             } else {
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity() {
     fun ShareImage(f: File) {
 
         // 파일정보를 uri로 만든다.
-        val uri = Uri.fromFile(f)
+        val uri = FileProvider.getUriForFile(this, "com.example.snake.cardshare.provider", f)
 
         // "image/*" type으로 지정하고 action은 Intent.ACTION_SEND인 Intent를 만든다.
         val intent = Intent()
